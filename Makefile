@@ -8,7 +8,7 @@ help:
 	@echo "=== Targets ==="
 	@echo "  help     Show this help"
 	@echo "  setup    terraform init"
-	@echo "  status   Check system dependencies (terraform, docker)"
+	@echo "  status   Check system dependencies (terraform, container runtime -- CONTAINER_CMD, default docker)"
 	@echo "  up       Start Floci (local AWS emulator) in Docker"
 	@echo "  down     Stop Floci"
 	@echo "  test     terraform test"
@@ -18,10 +18,10 @@ help:
 	@echo ""
 
 up:
-	docker run -d --rm -p 4566:4566 -v floci-data:/var/lib/floci --name floci floci/floci:2.0.1
+	@source ./make.sh && floci_up
 
 down:
-	docker stop floci
+	@source ./make.sh && floci_down
 
 setup:
 	@source ./make.sh && setup_commands
