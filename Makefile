@@ -1,6 +1,9 @@
 .PHONY: help setup status test validate plan apply up down
 SHELL := /bin/bash
 
+-include .env
+export
+
 help:
 	@echo ""
 	@echo "Workflow: setup -> up (start Floci) -> test (terraform test) -> plan/apply (manual, against whatever AWS_ENDPOINT_URL/provider config is in effect -- Floci or real AWS) -> down (stop Floci)"
