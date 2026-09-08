@@ -7,9 +7,10 @@ locals {
 }
 
 module "cloudwatch" {
-  for_each = toset(contains(local.enabled_addons, "cloudwatch") ? [terraform.workspace] : [])
-  source   = "./modules/cloudwatch"
-  name     = local.waf_cwlog_group_name
+  for_each    = toset(contains(local.enabled_addons, "cloudwatch") ? [terraform.workspace] : [])
+  source      = "./modules/cloudwatch"
+  name        = local.waf_cwlog_group_name
+  common_tags = var.common_tags
 }
 
 module "comprehend" {
@@ -24,6 +25,7 @@ module "alb" {
   source       = "./modules/alb"
   project_name = local.project_name
   environment  = var.environment
+  common_tags  = var.common_tags
 }
 
 module "waf" {
@@ -33,4 +35,5 @@ module "waf" {
   environment  = var.environment
   alb_arn      = module.alb[terraform.workspace].arn
   cwlog_arn    = module.cloudwatch[terraform.workspace].arn
+  common_tags  = var.common_tags
 }

@@ -4,5 +4,9 @@ variable "name" {
 
 variable "retention_in_days" {
   type    = number
-  default = null
+  default = 365
+}
+
+variable "common_tags" {
+  type = map(string)
 }

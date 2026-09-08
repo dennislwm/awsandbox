@@ -1,3 +1,12 @@
+variable "common_tags" {
+  description = "Tags applied to every supported resource."
+  type        = map(string)
+  default = {
+    Project     = "awsandbox"
+    Environment = "dev"
+  }
+}
+
 variable "aws_region" {
   description = "AWS region to provision resources in"
   type        = string

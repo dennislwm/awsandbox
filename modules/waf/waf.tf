@@ -49,6 +49,8 @@ resource "aws_wafv2_web_acl" "alb" {
     metric_name                = local.waf_name
     sampled_requests_enabled   = false
   }
+
+  tags = merge(var.common_tags, { Name = local.waf_name })
 }
 
 resource "aws_wafv2_web_acl_association" "alb" {
