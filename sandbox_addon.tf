@@ -2,7 +2,14 @@ locals {
   workspace_addons = {
     sandbox = []
   }
-  enabled_addons = lookup(local.workspace_addons, terraform.workspace, [])
+  enabled_addons       = lookup(local.workspace_addons, terraform.workspace, [])
+  waf_cwlog_group_name = "aws-waf-logs-awsandbox-${local.project_name}-${var.environment}"
+}
+
+module "cloudwatch" {
+  for_each = toset(contains(local.enabled_addons, "cloudwatch") ? [terraform.workspace] : [])
+  source   = "./modules/cloudwatch"
+  name     = local.waf_cwlog_group_name
 }
 
 module "comprehend" {
@@ -25,4 +32,5 @@ module "waf" {
   project_name = local.project_name
   environment  = var.environment
   alb_arn      = module.alb[terraform.workspace].arn
+  cwlog_arn    = module.cloudwatch[terraform.workspace].arn
 }

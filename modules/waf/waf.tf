@@ -55,3 +55,8 @@ resource "aws_wafv2_web_acl_association" "alb" {
   resource_arn = var.alb_arn
   web_acl_arn  = aws_wafv2_web_acl.alb.arn
 }
+
+resource "aws_wafv2_web_acl_logging_configuration" "alb" {
+  resource_arn            = aws_wafv2_web_acl.alb.arn
+  log_destination_configs = [var.cwlog_arn]
+}
