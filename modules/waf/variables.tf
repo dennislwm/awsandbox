@@ -7,6 +7,10 @@ variable "environment" {
   type = string
 }
 
+variable "alb_arn" {
+  type = string
+}
+
 variable "waf_rules" {
   description = "List of managed rule groups for the WAF ACL"
   type = list(object({

@@ -1,6 +1,6 @@
 locals {
   workspace_addons = {
-    sandbox = ["alb"]
+    sandbox = []
   }
   enabled_addons = lookup(local.workspace_addons, terraform.workspace, [])
 }
@@ -24,4 +24,5 @@ module "waf" {
   source       = "./modules/waf"
   project_name = local.project_name
   environment  = var.environment
+  alb_arn      = module.alb[terraform.workspace].arn
 }
