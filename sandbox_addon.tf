@@ -1,6 +1,6 @@
 locals {
   workspace_addons = {
-    sandbox = ["alb", "waf"]
+    sandbox = ["alb"]
   }
   enabled_addons = lookup(local.workspace_addons, terraform.workspace, [])
 }

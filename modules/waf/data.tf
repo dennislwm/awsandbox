@@ -1,7 +1,7 @@
 locals {
-  alb_name = "awsandbox-alb-${var.project_name}-${var.environment}"
+  waf_name = "awsandbox-waf-${var.project_name}-${var.environment}"
 }
 
 data "aws_lb" "alb" {
-  name = local.alb_name
+  name = "awsandbox-alb-${var.project_name}-${var.environment}"
 }

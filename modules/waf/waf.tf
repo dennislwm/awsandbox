@@ -1,9 +1,7 @@
 resource "aws_wafv2_web_acl" "alb" {
-  for_each = var.waf_rules
-
-  name        = each.key
+  name        = local.waf_name
   scope       = "REGIONAL"
-  description = "WAF for ${each.key}"
+  description = "WAF for ${local.waf_name}"
 
   default_action {
     allow {}
@@ -11,7 +9,7 @@ resource "aws_wafv2_web_acl" "alb" {
 
   dynamic "rule" {
     # dedup by rule name: a duplicate name in the list silently collapses to the last one
-    for_each = { for waf_rule in each.value : waf_rule.name => waf_rule }
+    for_each = { for waf_rule in var.waf_rules : waf_rule.name => waf_rule }
 
     content {
       name     = rule.value.name
@@ -41,23 +39,19 @@ resource "aws_wafv2_web_acl" "alb" {
       visibility_config {
         cloudwatch_metrics_enabled = true
         metric_name                = rule.value.name
-        sampled_requests_enabled   = true
+        sampled_requests_enabled   = false
       }
     }
   }
 
   visibility_config {
     cloudwatch_metrics_enabled = true
-    metric_name                = each.key
-    sampled_requests_enabled   = true
+    metric_name                = local.waf_name
+    sampled_requests_enabled   = false
   }
 }
 
-# NOTE: aws_wafv2_web_acl_association allows only one Web ACL per resource_arn.
-# A second key in var.waf_rules would try to associate the same ALB twice and fail.
 resource "aws_wafv2_web_acl_association" "alb" {
-  for_each = var.waf_rules
-
   resource_arn = data.aws_lb.alb.arn
-  web_acl_arn  = aws_wafv2_web_acl.alb[each.key].arn
+  web_acl_arn  = aws_wafv2_web_acl.alb.arn
 }
