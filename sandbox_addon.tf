@@ -3,7 +3,7 @@ locals {
     sandbox = []
   }
   enabled_addons       = lookup(local.workspace_addons, terraform.workspace, [])
-  waf_cwlog_group_name = "aws-waf-logs-awsandbox-${local.project_name}-${var.environment}"
+  waf_cwlog_group_name = "aws-waf-logs-${var.owner}-${local.project_name}-${var.environment}"
 }
 
 module "cloudwatch" {
@@ -16,6 +16,7 @@ module "cloudwatch" {
 module "comprehend" {
   for_each     = toset(contains(local.enabled_addons, "comprehend") ? [terraform.workspace] : [])
   source       = "./modules/comprehend"
+  owner        = var.owner
   project_name = local.project_name
   environment  = var.environment
 }
@@ -23,6 +24,7 @@ module "comprehend" {
 module "alb" {
   for_each     = toset(contains(local.enabled_addons, "alb") ? [terraform.workspace] : [])
   source       = "./modules/alb"
+  owner        = var.owner
   project_name = local.project_name
   environment  = var.environment
   common_tags  = var.common_tags
@@ -31,6 +33,7 @@ module "alb" {
 module "waf" {
   for_each     = toset(contains(local.enabled_addons, "waf") ? [terraform.workspace] : [])
   source       = "./modules/waf"
+  owner        = var.owner
   project_name = local.project_name
   environment  = var.environment
   alb_arn      = module.alb[terraform.workspace].arn

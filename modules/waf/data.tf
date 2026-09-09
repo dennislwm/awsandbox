@@ -1,3 +1,3 @@
 locals {
-  waf_name = "awsandbox-waf-${var.project_name}-${var.environment}"
+  waf_name = "${var.owner}-waf-${var.project_name}-${var.environment}"
 }

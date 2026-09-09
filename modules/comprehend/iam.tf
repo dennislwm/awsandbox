@@ -1,5 +1,5 @@
 locals {
-  comprehend_policy_name = format("awsandbox-iampolicy-%s-%s-%s", var.project_name, var.environment, "comprehend")
+  comprehend_policy_name = format("%s-iampolicy-%s-%s-%s", var.owner, var.project_name, var.environment, "comprehend")
 }
 
 resource "aws_iam_role_policy" "comprehend" {

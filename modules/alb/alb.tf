@@ -1,5 +1,5 @@
 locals {
-  alb_name = "awsandbox-alb-${var.project_name}-${var.environment}"
+  alb_name = "${var.owner}-alb-${var.project_name}-${var.environment}"
 }
 
 resource "aws_lb" "alb" {

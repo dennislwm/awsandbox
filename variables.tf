@@ -4,7 +4,14 @@ variable "common_tags" {
   default = {
     Project     = "awsandbox"
     Environment = "dev"
+    Owner       = "awsandbox"
   }
+}
+
+variable "owner" {
+  description = "Naming prefix used across all resource names"
+  type        = string
+  default     = "awsandbox"
 }
 
 variable "aws_region" {

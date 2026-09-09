@@ -1,3 +1,7 @@
+variable "owner" {
+  type = string
+}
+
 variable "project_name" {
   type    = string
   default = "sandbox"
@@ -84,4 +88,9 @@ variable "waf_rules" {
       }
     }
   ]
+
+  validation {
+    condition     = length(distinct([for r in var.waf_rules : r.priority])) == length(var.waf_rules)
+    error_message = "waf_rules priorities must be unique"
+  }
 }

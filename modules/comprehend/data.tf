@@ -1,8 +1,8 @@
 locals {
-  subnet_a_name = "awsandbox-subnet-a-${var.project_name}-${var.environment}-01"
-  subnet_b_name = "awsandbox-subnet-a-${var.project_name}-${var.environment}-02"
-  domain_role_name = "awsandbox-iamrole-${var.project_name}-${var.environment}-default-exec"
-  domain_sg_name = "awsandbox-sg-${var.project_name}-${var.environment}-domain"
+  subnet_a_name = "${var.owner}-subnet-a-${var.project_name}-${var.environment}-01"
+  subnet_b_name = "${var.owner}-subnet-a-${var.project_name}-${var.environment}-02"
+  domain_role_name = "${var.owner}-iamrole-${var.project_name}-${var.environment}-default-exec"
+  domain_sg_name = "${var.owner}-sg-${var.project_name}-${var.environment}-domain"
 }
 
 data "aws_subnet" "sagemaker_subnet_a" {
